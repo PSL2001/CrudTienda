@@ -1,0 +1,7 @@
+;renombra esto a .conf
+;parametros de conexion a bbdd
+[opciones]
+host=tu_host
+bbdd=tu_bbdd
+user=tu_usuario
+pass=tu_pass

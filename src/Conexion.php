@@ -1,4 +1,7 @@
 <?php
+namespace source;
+use PDO;
+use PDOException;
 class Conexion {
     protected static $conexion;
 
@@ -13,15 +16,15 @@ class Conexion {
         //1. Leemos el archivo .conf
         $fichero = dirname(__DIR__, 1)."/.conf";
         $opciones = parse_ini_file($fichero);
-        //Guardamos los datos del fichero
+        //2. Guardamos los datos del fichero
         $host = $opciones['host'];
         $bbdd = $opciones['bbdd'];
         $user = $opciones['user'];
         $pass = $opciones['pass'];
-        //Creamos el dns
+        //3. Creamos el dns
         $dns = "mysql:host=$host;bdname=$bbdd;charset=utf8mb4";
 
-        //Creamos la conexion
+        //4. Creamos la conexion
         try {
             self::$conexion = new PDO($dns, $user, $pass);
             //Añade esta linea solo si estas en desarrollo

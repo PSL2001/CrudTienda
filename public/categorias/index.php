@@ -22,12 +22,21 @@ $categorias = (new Categorias)->readAll(); //Leemos la tabla entera
 <body style="background-color:silver">
     <h3 class="text-center">Categorias disponibles</h3>
     <div class="container mt-2">
-        <a href="crcategoria.php" class="btn btn-info"><i class="fas fa-plus-circle"></i> Crear Categoria</a>
-        <table class="table">
+        <?php
+        if (isset($_SESSION['mensaje'])) {
+            echo <<< TXT1
+            <div class="alert alert-success" role="alert">
+                {$_SESSION['mensaje']}
+            </div>
+            TXT1;
+            unset($_SESSION['mensaje']);
+        }
+        ?>
+        <a href="crcategoria.php" class="btn btn-info mb-2"><i class="fas fa-plus-circle"></i> Crear Categoria</a>
+        <table class="table table-info table-striped">
             <thead>
                 <tr>
                     <th scope="col">Detalles</th>
-                    <th scope="col">Id</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Descripcion</th>
                     <th scope="col">Opciones</th>
@@ -38,11 +47,16 @@ $categorias = (new Categorias)->readAll(); //Leemos la tabla entera
                 while ($fila = $categorias->fetch(PDO::FETCH_OBJ)) {
                     echo <<< TXT
                     <tr>
-                        <th scope="row">bton Detalles</th>
-                        <td>{$fila->id}</td>
+                        <th scope="row"><a href="dcategoria.php?id={$fila->id}" class="btn btn-light rounded-pill"><i class="fas fa-info-circle"></i> Detalles</a></th>
                         <td>{$fila->nombre}</td>
                         <td>{$fila->descripcion}</td>
-                        <td>botones</td>
+                        <td>
+                        <form name="delete" action="bcategoria.php" method="POST">
+                            <input type="hidden" name="id" value="{$fila->id}"/>
+                            <a href="ucategoria.php?id={$fila->id}" class="btn btn-warning rounded-circle"><i class="fas fa-pencil-alt"></i></a>
+                            <button type="submit" class="btn btn-danger rounded-circle" onclick="return confirm('¿Deseas borrar la categoria?')"><i class="fas fa-trash-alt"></i></button>
+                        </form>
+                        </td>
                     </tr>
                     TXT;
                 }

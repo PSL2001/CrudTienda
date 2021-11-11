@@ -35,7 +35,18 @@ class Categorias extends Conexion {
 
     }
     public function delete() {
+        $q = "delete from categorias where id = :i";
+        $stmt = parent::$conexion->prepare($q);
 
+        try {
+            $stmt->execute([
+                ':i'=>$this->id
+            ]);
+        } catch (PDOException $ex) {
+            die("Error al borrar la categoria: ".$ex->getMessage());
+        }
+
+        parent::$conexion = null;
     }
     //------------------------------Otros Metodos-------------------------
     public function generarCategorias($cant) {
@@ -77,6 +88,21 @@ class Categorias extends Conexion {
         }
         parent::$conexion = null;
         return $stmt;
+    }
+    public function existeCategoria($nom) {
+        $q = "select * from categorias where nombre = :n";
+        $stmt = parent::$conexion->prepare($q);
+
+        try {
+            $stmt->execute([
+                ':n'=>$nom
+            ]);
+        } catch (PDOException $ex) {
+            die("Error al leer todas las categorias: ".$ex->getMessage());
+        }
+        parent::$conexion = null;
+        return $stmt;
+
     }
     //-------------------------------Getters y setters---------------------
     /**

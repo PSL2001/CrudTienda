@@ -22,7 +22,7 @@ class Conexion {
         $user = $opciones['user'];
         $pass = $opciones['pass'];
         //3. Creamos el dns
-        $dns = "mysql:host=$host;bdname=$bbdd;charset=utf8mb4";
+        $dns = "mysql:host=$host;dbname=$bbdd;charset=utf8mb4";
 
         //4. Creamos la conexion
         try {

@@ -39,9 +39,9 @@ $categorias = (new Categorias)->readAll(); //Leemos la tabla entera
                     echo <<< TXT
                     <tr>
                         <th scope="row">bton Detalles</th>
-                        <td>{$filas->id}</td>
-                        <td>{$filas->nombre}</td>
-                        <td>{$filas->descripcion}</td>
+                        <td>{$fila->id}</td>
+                        <td>{$fila->nombre}</td>
+                        <td>{$fila->descripcion}</td>
                         <td>botones</td>
                     </tr>
                     TXT;

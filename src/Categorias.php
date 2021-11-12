@@ -2,6 +2,7 @@
 namespace source;
 
 use Faker;
+use PDO;
 use PDOException;
 
 class Categorias extends Conexion {
@@ -28,11 +29,33 @@ class Categorias extends Conexion {
         }
         parent::$conexion = null;
     }
-    public function read() {
+    public function read($id) {
+        $q = "select * from categorias where id = :i";
+        $stmt = parent::$conexion->prepare($q);
 
+        try {
+            $stmt->execute([
+                ':i'=>$id
+            ]);
+        } catch (PDOException $ex) {
+            die("Error al leer la categoria: ".$ex->getMessage());
+        }
+        parent::$conexion = null;
+        return $stmt->fetch(PDO::FETCH_OBJ); //Esto siempre devuelve una fila
     }
-    public function update() {
+    public function update($id) {
+        $q = "update categorias set nombre=:n, descripcion=:d where id = :i";
+        $stmt = parent::$conexion->prepare($q);
 
+        try {
+            $stmt->execute([
+                ':n'=>$this->nombre,
+                ':d'=>$this->descripcion,
+                ':i'=>$id
+            ]);
+        } catch (PDOException $ex) {
+            die("Error al actualizar la categoria: ".$ex->getMessage());
+        }
     }
     public function delete() {
         $q = "delete from categorias where id = :i";
@@ -90,7 +113,11 @@ class Categorias extends Conexion {
         return $stmt;
     }
     public function existeCategoria($nom) {
-        $q = "select * from categorias where nombre = :n";
+        if (isset($this->id)) {
+            $q = "select * from categorias where nombre = :n AND id != {$this->id}";
+        } else {
+            $q = "select * from categorias where nombre = :n";
+        }
         $stmt = parent::$conexion->prepare($q);
 
         try {

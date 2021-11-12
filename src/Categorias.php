@@ -101,7 +101,7 @@ class Categorias extends Conexion {
             die("Error al leer todas las categorias: ".$ex->getMessage());
         }
         parent::$conexion = null;
-        return $stmt;
+        return ($stmt->rowCount() != 0);
 
     }
     //-------------------------------Getters y setters---------------------

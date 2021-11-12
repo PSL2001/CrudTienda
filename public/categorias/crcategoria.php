@@ -20,6 +20,16 @@ function hayError($nombre, $valor, $length)
             $_SESSION['err_desc'] = "La descripcion debe tener al menos $length caracteres";
         }
     }
+    else { 
+        //Aunque los datos esten escritos correctamente, hay que comprobar que no exista la categoria
+        if ($nombre == "nombre") {
+            if ((new Categorias)->existeCategoria($valor)) {
+                $error = true;
+                $_SESSION['err_nombre'] = "La categoria $valor ya existe en la base de Datos";
+            }
+        }
+        
+    }
     return $error;
 }
 

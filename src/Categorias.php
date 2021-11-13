@@ -137,7 +137,7 @@ class Categorias extends Conexion {
         $stmt = parent::$conexion->prepare($q);
 
         try {
-            $stmt->prepare($q);
+            $stmt->execute();
         } catch (PDOException $ex) {
             die("Error al devolver las id's: ".$ex->getMessage());
         }

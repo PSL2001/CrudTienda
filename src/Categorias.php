@@ -131,6 +131,23 @@ class Categorias extends Conexion {
         return ($stmt->rowCount() != 0);
 
     }
+
+    public function devolverID() {
+        $q = "select id from categorias order by id";
+        $stmt = parent::$conexion->prepare($q);
+
+        try {
+            $stmt->prepare($q);
+        } catch (PDOException $ex) {
+            die("Error al devolver las id's: ".$ex->getMessage());
+        }
+        $ids = []; //Nos creamos un array
+        while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
+            $ids[] = $fila->id; //Le pasamos todos los id's al array
+        }
+        parent::$conexion = null;
+        return $ids;
+    }
     //-------------------------------Getters y setters---------------------
     /**
      * Get the value of id

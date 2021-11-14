@@ -1,18 +1,17 @@
 <?php
 
-use source\Articulos;
-use source\Categorias;
+use source\{Articulos, Categorias};
 
 if (!isset($_GET['id'])) {
     header("index.php");
     die();
 }
 
-require dirname(__DIR__, 2)."/vendor/autoload.php";
+require dirname(__DIR__, 2) . "/vendor/autoload.php";
 
-$categoria = (new Categorias)->read($_GET['id']);
+$articulo = (new Articulos)->read($_GET['id']);
 
-$articulos = (new Articulos)->devolverArticulos();
+$categorias = (new Categorias)->devolverCategorias();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -32,22 +31,18 @@ $articulos = (new Articulos)->devolverArticulos();
     <div class="container mt-2">
         <div class="card bg-warning mx-auto" style="width: 28rem;">
             <div class="card-header">
-                Detalles Categoria <?php echo $categoria->id ?>
+                Detalles Categoria <?php echo $articulo->id ?>
             </div>
             <div class="card-body">
-                <h5 class="card-title"><?php echo $categoria->nombre ?></h5>
-                <p class="card-text"><?php echo $categoria->descripcion ?></p>
-                <p class="card-text">Articulos en la categoria
-                    <ul>
+                <h5 class="card-title"><?php echo $articulo->nombre ?></h5>
+                <p class="card-text"><?php echo $articulo->precio ?></p>
                 <?php
-                foreach ($articulos as $item) {
-                    if ($item->categoria_id == $categoria->id) {
-                        echo "<li>{$item->nombre}</li>";
+                foreach ($categorias as $item) {
+                    if ($item->id == $articulo->categoria_id) {
+                        echo "<p class='card-text'>{$item->nombre}</p>";
                     }
-                } 
+                }
                 ?>
-                </ul>
-                </p>
                 <a href="index.php" class="btn btn-outline-primary"><i class="fas fa-backward"></i> Volver</a>
             </div>
         </div>

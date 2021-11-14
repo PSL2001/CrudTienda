@@ -118,6 +118,18 @@ class Articulos extends Conexion {
         parent::$conexion = null;
         return $stmt;
     }
+
+    public function devolverArticulos() {
+        $q = "select id, nombre, categoria_id from articulos order by nombre";
+        $stmt = parent::$conexion->prepare($q);
+
+        try {
+            $stmt->execute();
+        } catch (PDOException $ex) {
+            die("Error al devolver los articulos: ".$ex->getMessage());
+        }
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
     
     //-----------------------------------------
     /**

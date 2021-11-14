@@ -2,6 +2,7 @@
 namespace source;
 
 use Faker;
+use PDO;
 use PDOException;
 
 class Articulos extends Conexion {
@@ -28,14 +29,49 @@ class Articulos extends Conexion {
         parent::$conexion = null;
 
     }
-    public function read() {
+    public function read($id) {
+        $q = "select * from articulos where id = :i";
+        $stmt = parent::$conexion->prepare($q);
 
+        try {
+            $stmt->execute([
+                ':i'=>$id
+            ]);
+        } catch (PDOException $ex) {
+            die("Error al leer la categoria: ".$ex->getMessage());
+        }
+        parent::$conexion = null;
+        return $stmt->fetch(PDO::FETCH_OBJ); //Esto siempre devuelve una fila
     }
     public function update() {
+        $q = "update articulos set nombre=:n, precio=:p, categoria_id=:c where id=:i";
+        $stmt = parent::$conexion->prepare($q);
 
+        try {
+            $stmt->execute([
+                ':n'=>$this->nombre,
+                ':p'=>$this->precio,
+                ':c'=>$this->categoria_id,
+                ':i'=>$this->id
+            ]);
+        } catch (PDOException $ex) {
+            die("Error al actualizar el articulo ".$ex->getMessage());
+        }
+        parent::$conexion == null;
     }
     public function delete() {
+        $q = "delete from articulos where id = :i";
+        $stmt = parent::$conexion->prepare($q);
 
+        try {
+            $stmt->execute([
+                ':i'=>$this->id
+            ]);
+        } catch (PDOException $ex) {
+            die("Error al borrar el articulo: ".$ex->getMessage());
+        }
+
+        parent::$conexion = null;
     }
 
     //---------------Otros Metodos-------------

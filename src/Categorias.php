@@ -148,6 +148,18 @@ class Categorias extends Conexion {
         parent::$conexion = null;
         return $ids;
     }
+
+    public function devolverCategorias() {
+        $q = "select id, nombre from categorias order by nombre";
+        $stmt = parent::$conexion->prepare($q);
+
+        try {
+            $stmt->execute();
+        } catch (PDOException $ex) {
+            die("Error al devolver categorias: ".$ex->getMessage());
+        }
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
     //-------------------------------Getters y setters---------------------
     /**
      * Get the value of id

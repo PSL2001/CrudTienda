@@ -24,6 +24,16 @@ $articulos = (new Articulos)->ReadAll();
 <body style="background-color:silver">
     <h3 class="text-center">Todos los Articulos</h3>
     <div class="container mt-2">
+    <?php
+        if (isset($_SESSION['mensaje'])) {
+            echo <<< TXT1
+            <div class="alert alert-success" role="alert">
+                {$_SESSION['mensaje']}
+            </div>
+            TXT1;
+            unset($_SESSION['mensaje']);
+        }
+        ?>
         <a href="carticulo.php" class="btn btn-info mb-2"><i class="fas fa-plus-circle"></i> Nuevo Articulo</a>
         <table class="table table-primary table-striped">
             <thead>
@@ -40,11 +50,17 @@ $articulos = (new Articulos)->ReadAll();
                 while ($fila = $articulos->fetch(PDO::FETCH_OBJ)) {
                     echo <<< TXT
                      <tr>
-                        <th scope="row">btnDetalles</th>
+                     <th scope="row"><a href="darticulo.php?id={$fila->id}" class="btn btn-light rounded-pill"><i class="fas fa-info-circle"></i> Detalles</a></th>
                         <td>{$fila->nombre}</td>
                         <td>{$fila->precio}</td>
                         <td>{$fila->categoria_id}</td>
-                        <td>btneditar/borrar</td>
+                        <td>
+                        <form name="delete" action="barticulo.php" method="POST">
+                        <input type="hidden" name="id" value="{$fila->id}"/>
+                        <a href="uarticulo.php?id={$fila->id}" class="btn btn-warning rounded-circle"><i class="fas fa-pencil-alt"></i></a>
+                        <button type="submit" class="btn btn-danger rounded-circle" onclick="return confirm('¿Deseas borrar el articulo?')"><i class="fas fa-trash-alt"></i></button>
+                        </form>
+                        </td>
                      </tr>
                      TXT;
                 }

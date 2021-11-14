@@ -47,7 +47,7 @@ class Articulos extends Conexion {
             $categorias = (new Categorias)->devolverID();
             for ($i=0; $i < $cant; $i++) { 
                 $nombre = $faker->word();
-                $precio = $faker->randomFloat(2, 0, 9999.99);
+                $precio = $faker->randomFloat(2, 0, 99999.99);
                 $categoria_id = $categorias[array_rand($categorias, 1)]; //como devolvemos todo en un array, podemos usar array_rand y coger de $categorias una posicion aleatoria
 
                 (new Articulos)->setNombre($nombre)
